@@ -17,25 +17,29 @@ if not A_IsAdmin
         }
     }
 
-    MsgBox Failed to run as administrator.
+    MsgBox Failed to run WinMove as administrator.
 }
 
 <#n::
+WinGet, process_name, ProcessName, A
 WinGetClass, class, A
 
-if class contains ConsoleWindowClass,mintty,Notepad,TaskManagerWindow
+if class in ConsoleWindowClass,mintty,Notepad,TaskManagerWindow
 {
     WinMove, A, , 480, 180, 960, 720
 }
-else if class contains EVA_Window_Dblclk
+else if process_name = KakaoTalk.exe
 {
-    WinMove, A, , 764, 199, 392, 642
+    if class = EVA_Window_Dblclk
+    {
+        WinMove, A, , 764, 199, 392, 642
+    }
+    else
+    {
+        WinMove, A, , 1164, 199, 350, 600
+    }
 }
-else if class contains #32770
-{
-    WinMove, A, , 1164, 199, 350, 600
-}
-else if class contains WindowsForms10.Window.8.app.0.3becb76_r6_ad1
+else if process_name = Screenpresso.exe
 {
     WinMove, A, , 1255, 562, 660, 473
 }
