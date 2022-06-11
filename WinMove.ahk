@@ -3,22 +3,7 @@
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-if not A_IsAdmin
-{
-    try
-    {
-        if A_IsCompiled
-        {
-            Run *RunAs "%A_ScriptFullPath%" /restart
-        }
-        else
-        {
-            Run *RunAs "%A_AhkPath%" /restart "%A_ScriptFullPath%"
-        }
-    }
-
-    MsgBox Failed to run WinMove as administrator.
-}
+#SingleInstance Force
 
 <#n::
 WinGet, process_name, ProcessName, A
