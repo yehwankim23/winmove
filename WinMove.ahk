@@ -6,6 +6,15 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
 
 Menu, Tray, Tip, WinMove
+Menu, Tray, NoStandard
+Menu, Tray, Add, Run As Administrator, RunAsAdministrator
+Menu, Tray, Add
+Menu, Tray, Standard
+
+if A_IsAdmin
+{
+    Menu, Tray, Disable, Run As Administrator
+}
 
 <#n::
 WinGet, process_name, ProcessName, A
@@ -35,4 +44,8 @@ else
     WinMove, A, , 360, 90, 1200, 900
 }
 
+return
+
+RunAsAdministrator:
+Run *RunAs "%A_ScriptFullPath%" /restart
 return
