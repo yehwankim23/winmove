@@ -5,6 +5,8 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 #SingleInstance Force
 
+Menu, Tray, Tip, WinMove
+
 <#n::
 WinGet, process_name, ProcessName, A
 WinGetClass, class, A
