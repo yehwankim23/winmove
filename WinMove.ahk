@@ -1,58 +1,71 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-; #Warn  ; Enable warnings to assist with detecting common errors.
-SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-
+﻿#Requires AutoHotkey v2.0
 #SingleInstance Force
 
-Menu, Tray, Tip, WinMove
+A_IconTip := "WinMove 2024.11"
 
-#n::
-WinGet, process_name, ProcessName, A
-WinGetClass, class, A
+; Alt + w
+!w:: {
+    process_name := WinGetProcessName("A")
+    title := WinGetTitle("A")
 
-switch process_name
-{
-    case "KakaoTalk.exe":
-        if class = EVA_Window_Dblclk
-        {
-            WinMove, A, , 764, 199, 392, 642
-        }
-        else
-        {
-            WinMove, A, , 1164, 199, 380, 640
-        }
-    case "Screenpresso.exe":
-        WinMove, A, , 1255, 562, 660, 473
-    case "fraps.exe":
-        WinMove, A, , 657, 335, 606, 369
-    default:
-        if class in ConsoleWindowClass,mintty,Notepad,TaskManagerWindow
-        {
-            WinMove, A, , 480, 180, 960, 720
-        }
-        else
-        {
-            WinMove, A, , 360, 90, 1200, 900
-        }
-}
+    switch (process_name) {
+        case "KakaoTalk.exe":
+            switch (title) {
+                case "카카오톡":
+                    WinMove(764, 199, 392, 642, "A")
+                case "":
+                    WinMove(1160, 199, 510, 640, "A")
+                default:
+                    WinMove(1164, 199, 380, 640, "A")
+            }
+        case "Screenpresso.exe":
+            WinMove(1255, 562, 660, 473, "A")
+        case "fraps.exe":
+            WinMove(657, 335, 606, 369, "A")
+        default:
+            vertical_scale := A_ScreenHeight / 1080
+            horizontal_scale := A_ScreenWidth / 1920
 
-return
-
-#+n::
-if not A_IsAdmin
-{
-    try
-    {
-        Run, *RunAs "%A_ScriptFullPath%" /restart
+            if (process_name ~= "i)cmd.exe|mintty.exe|notepad.exe|powershell.exe|Taskmgr.exe") {
+                WinMove(
+                    horizontal_scale * 480,
+                    vertical_scale * 180,
+                    horizontal_scale * 960,
+                    vertical_scale * 720,
+                    "A"
+                )
+            } else {
+                WinMove(
+                    horizontal_scale * 360,
+                    vertical_scale * 90,
+                    horizontal_scale * 1200,
+                    vertical_scale * 900,
+                    "A"
+                )
+            }
     }
-
-    MsgBox, Failed to run as administrator.
 }
 
-#y::
-WinGetClass, class, A
-WinGet, process_name, ProcessName, A
-WinGetPos, x, y, width, height, A
-MsgBox, %class% > %process_name%`n`nPosition : %x%, %y%`nSize : %width% x %height%
-return
+; Shift + Alt + w
++!w:: {
+    if not (A_IsAdmin) {
+        try {
+            Run '*RunAs "' A_ScriptFullPath '" / restart'
+        }
+    }
+}
+
+; Ctrl + Alt + w
+^!w:: {
+    process_name := WinGetProcessName("A")
+    title := WinGetTitle("A")
+    WinGetPos(&x, &y, &width, &height, "A")
+
+    MsgBox(
+        "Process Name : " process_name "`n"
+        "Title : " title "`n"
+        "Position : " x ", " y "`n"
+        "Size : " width " x " height,
+        "WinMove"
+    )
+}
