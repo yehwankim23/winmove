@@ -1,7 +1,7 @@
 ﻿#Requires AutoHotkey v2.0
 #SingleInstance Force
 
-A_IconTip := "WinMove 2024.11"
+A_IconTip := "WinMove 2025.1"
 
 ; Alt + w
 !w:: {
@@ -23,8 +23,8 @@ A_IconTip := "WinMove 2024.11"
         case "fraps.exe":
             WinMove(657, 335, 606, 369, "A")
         default:
-            vertical_scale := A_ScreenHeight / 1080
             horizontal_scale := A_ScreenWidth / 1920
+            vertical_scale := A_ScreenHeight / 1080
 
             if (process_name ~= "i)cmd.exe|mintty.exe|notepad.exe|powershell.exe|Taskmgr.exe") {
                 WinMove(
@@ -42,6 +42,9 @@ A_IconTip := "WinMove 2024.11"
                     vertical_scale * 900,
                     "A"
                 )
+
+                WinGetPos(, , &width, &height, "A")
+                WinMove((A_ScreenWidth - width) / 2, (A_ScreenHeight - height) / 2, , , "A")
             }
     }
 }
