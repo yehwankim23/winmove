@@ -1,7 +1,7 @@
 ﻿#Requires AutoHotkey v2.0
 #SingleInstance Force
 
-A_IconTip := "WinMove 2025.1"
+A_IconTip := "WinMove 2025.2"
 
 ; Alt + w
 !w:: {
@@ -24,29 +24,31 @@ A_IconTip := "WinMove 2025.1"
             case "fraps.exe":
                 WinMove(657, 335, 606, 369, "A")
             default:
-                horizontal_scale := A_ScreenWidth / 1920
-                vertical_scale := A_ScreenHeight / 1080
+                x := 20
+                y := 10
+                width := 60
+                height := 80
 
                 if (process_name ~= "i)cmd.exe|mintty.exe|notepad.exe|powershell.exe|Taskmgr.exe") {
-                    WinMove(
-                        horizontal_scale * 480,
-                        vertical_scale * 180,
-                        horizontal_scale * 960,
-                        vertical_scale * 720,
-                        "A"
-                    )
-                } else {
-                    WinMove(
-                        horizontal_scale * 360,
-                        vertical_scale * 90,
-                        horizontal_scale * 1200,
-                        vertical_scale * 900,
-                        "A"
-                    )
-
-                    WinGetPos(, , &width, &height, "A")
-                    WinMove((A_ScreenWidth - width) / 2, (A_ScreenHeight - height) / 2, , , "A")
+                    x := 25
+                    y := 15
+                    width := 50
+                    height := 70
                 }
+
+                screen_width := A_ScreenWidth / 100
+                screen_height := A_ScreenHeight / 100
+
+                WinMove(
+                    screen_width * x,
+                    screen_height * y,
+                    screen_width * width,
+                    screen_height * height,
+                    "A"
+                )
+
+                WinGetPos(, , &width, &height, "A")
+                WinMove((A_ScreenWidth - width) / 2, (A_ScreenHeight - height) / 2, , , "A")
         }
     }
 }

@@ -1,6 +1,6 @@
 # WinMove
 
-Program that resizes and moves windows to predefined sizes and locations
+Program that resizes and moves windows to predefined sizes and positions
 
 ## Installation
 
