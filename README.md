@@ -9,4 +9,4 @@ Windows program that resizes and moves windows to predefined sizes and positions
 
 ## Usage
 
-Press `Alt + w` to resize the active window
+Press `Win + Down` to resize the active window

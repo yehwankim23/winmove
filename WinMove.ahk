@@ -1,10 +1,10 @@
 ﻿#Requires AutoHotkey v2.0
 #SingleInstance Force
 
-A_IconTip := "WinMove 2025.5"
+A_IconTip := "WinMove 2025.7"
 
-; Alt + w
-!w:: {
+; Win + Down
+#Down:: {
     try {
         WinGetPos(, , &width, &height, "A")
 
@@ -58,8 +58,8 @@ A_IconTip := "WinMove 2025.5"
     }
 }
 
-; Shift + Alt + w
-+!w:: {
+; Shift + Win + Down
++#Down:: {
     if not (A_IsAdmin) {
         try {
             Run '*RunAs "' A_ScriptFullPath '" / restart'
@@ -67,8 +67,8 @@ A_IconTip := "WinMove 2025.5"
     }
 }
 
-; Ctrl + Alt + w
-^!w:: {
+; Ctrl + Win + Down
+^#Down:: {
     process_name := WinGetProcessName("A")
     title := WinGetTitle("A")
     WinGetPos(&x, &y, &width, &height, "A")
