@@ -1,49 +1,92 @@
 ﻿#Requires AutoHotkey v2.0
 #SingleInstance Force
 
-A_IconTip := "WinMove 2025.2"
+A_IconTip := "WinMove 2025.7"
 
-; Alt + w
-!w:: {
+; Win + Down
+#Down:: {
     try {
+        WinGetPos(, , &width, &height, "A")
+
+        if (height >= A_ScreenHeight) {
+            return
+        }
+
+        WinRestore("A", , ,)
+
         process_name := WinGetProcessName("A")
-        title := WinGetTitle("A")
 
         switch (process_name) {
+            case "fraps.exe":
+                WinMove((A_ScreenWidth - width) / 2, (A_ScreenHeight - height) / 2, , , "A")
             case "KakaoTalk.exe":
+                title := WinGetTitle("A")
+
+                width_scale := 0.2
+                height_scale := 0.6
+
                 switch (title) {
                     case "카카오톡":
-                        WinMove(764, 199, 392, 642, "A")
+                        WinMove(
+                            A_ScreenWidth * (1 - width_scale) / 2,
+                            A_ScreenHeight * (1 - height_scale) / 2,
+                            A_ScreenWidth * width_scale,
+                            A_ScreenHeight * height_scale,
+                            "A"
+                        )
+
+                        WinGetPos(, , &width, &height, "A")
+                        WinMove((A_ScreenWidth - width) / 2, (A_ScreenHeight - height) / 2, , , "A")
                     case "":
-                        WinMove(1160, 199, 510, 640, "A")
+                        WinMove(
+                            (0.5 * A_ScreenWidth - width) / 2,
+                            (A_ScreenHeight - height) / 2,
+                            ,
+                            ,
+                            "A")
                     default:
-                        WinMove(1164, 199, 380, 640, "A")
+                        WinMove(
+                            A_ScreenWidth * (1 - width_scale) / 2,
+                            A_ScreenHeight * (1 - height_scale) / 2,
+                            A_ScreenWidth * width_scale,
+                            A_ScreenHeight * height_scale,
+                            "A"
+                        )
+
+                        WinGetPos(, , &width, &height, "A")
+
+                        WinMove(
+                            (1.5 * A_ScreenWidth - width) / 2,
+                            (A_ScreenHeight - height) / 2,
+                            ,
+                            ,
+                            "A")
                 }
             case "Screenpresso.exe":
-                WinMove(1255, 562, 660, 473, "A")
-            case "fraps.exe":
-                WinMove(657, 335, 606, 369, "A")
-            default:
-                x := 20
-                y := 10
-                width := 60
-                height := 80
-
-                if (process_name ~= "i)cmd.exe|mintty.exe|notepad.exe|powershell.exe|Taskmgr.exe") {
-                    x := 25
-                    y := 15
-                    width := 50
-                    height := 70
-                }
-
-                screen_width := A_ScreenWidth / 100
-                screen_height := A_ScreenHeight / 100
+                width_scale := 0.3
+                height_scale := 0.4
 
                 WinMove(
-                    screen_width * x,
-                    screen_height * y,
-                    screen_width * width,
-                    screen_height * height,
+                    A_ScreenWidth * (1 - width_scale) / 2,
+                    A_ScreenHeight * (1 - height_scale) / 2,
+                    A_ScreenWidth * width_scale,
+                    A_ScreenHeight * height_scale,
+                    "A"
+                )
+            default:
+                width_scale := 0.6
+                height_scale := 0.8
+
+                if (process_name ~= "i)cmd.exe|mintty.exe|notepad.exe|powershell.exe|Taskmgr.exe") {
+                    width_scale := 0.5
+                    height_scale := 0.7
+                }
+
+                WinMove(
+                    A_ScreenWidth * (1 - width_scale) / 2,
+                    A_ScreenHeight * (1 - height_scale) / 2,
+                    A_ScreenWidth * width_scale,
+                    A_ScreenHeight * height_scale,
                     "A"
                 )
 
@@ -53,8 +96,8 @@ A_IconTip := "WinMove 2025.2"
     }
 }
 
-; Shift + Alt + w
-+!w:: {
+; Shift + Win + Down
++#Down:: {
     if not (A_IsAdmin) {
         try {
             Run '*RunAs "' A_ScriptFullPath '" / restart'
@@ -62,8 +105,8 @@ A_IconTip := "WinMove 2025.2"
     }
 }
 
-; Ctrl + Alt + w
-^!w:: {
+; Ctrl + Win + Down
+^#Down:: {
     process_name := WinGetProcessName("A")
     title := WinGetTitle("A")
     WinGetPos(&x, &y, &width, &height, "A")
