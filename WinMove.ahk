@@ -1,7 +1,7 @@
 ﻿#Requires AutoHotkey v2.0
 #SingleInstance Force
 
-A_IconTip := "WinMove 2025.7"
+A_IconTip := "WinMove 2025.7.14"
 
 ; Win + Down
 #Down:: {
@@ -17,7 +17,7 @@ A_IconTip := "WinMove 2025.7"
         process_name := WinGetProcessName("A")
 
         switch (process_name) {
-            case "fraps.exe":
+            case "MSIAfterburner.exe", "fraps.exe", "RTSS.exe":
                 WinMove((A_ScreenWidth - width) / 2, (A_ScreenHeight - height) / 2, , , "A")
             case "KakaoTalk.exe":
                 title := WinGetTitle("A")
